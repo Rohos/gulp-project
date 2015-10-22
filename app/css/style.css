@@ -1,0 +1,17 @@
+.wrapper{
+    position: relative;
+    min-height: 100%;
+    min-width: 970px;
+    height: auto!important;
+    overflow: hidden;
+}
+.wrapper:after {
+    content: "";
+    height: 61px;
+    display: block;
+}
+.page-footer{
+    height: 61px;
+    margin-top: -61px;
+    background: orange;
+}

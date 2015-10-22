@@ -1,0 +1,12 @@
+{
+    "name": "gulp-project",
+    "authors": [
+        "Rohos"
+    ],
+    "description": "",
+    "dependencies": {
+        "jquery": "^1",
+        "normalize-css": "normalize.css#~3.0.3",
+        "modernizr": "^2"
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "gulp-project",
+  "version": "0.0.1",
+  "description": "Gulp project billet",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rohos/gulp-project.git"
+  },
+  "author": {
+    "name": "Rohos",
+    "url": "https://github.com/Rohos"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rohos/gulp-project/issues"
+  },
+  "homepage": "https://github.com/Rohos/gulp-project#readme",
+  "devDependencies": {
+    "bower": "^1.6.3",
+    "browser-sync": "^2.9.11",
+    "gulp": "^3.9.0",
+    "run-sequence": "^1.1.4"
+  }
+}
