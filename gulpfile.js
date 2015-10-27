@@ -60,7 +60,7 @@ gulp.task("wiredep-bower", function () {
                     "dependencies": {"jquery": ">=1.6.0"}
                 }
             }*/
-            //, exclude: ["bower/qtip2/"]
+            , exclude: ["modernizr/"]
             //, ignorePath: /^(\.\.\/)*\.\./
         }))
         .pipe(gulp.dest("./app"));
@@ -102,7 +102,7 @@ gulp.task("build-clean", function () {
 
 // Запускаем локальный сервер для DIST
 gulp.task("build-server", function () {
-    browserSync.init({
+    return browserSync.init({
         notify: false,
         port: 2000,
         server: { baseDir: RS_CONF.path.buildDir }
@@ -111,14 +111,14 @@ gulp.task("build-server", function () {
 
 // Перенос шрифтов
 gulp.task("build-fonts", function() {
-    gulp.src(RS_CONF.path.fontDir +"*")
+    return gulp.src(RS_CONF.path.fontDir +"*")
         .pipe(filter(RS_CONF.path.fontsPatt))
         .pipe(gulp.dest(RS_CONF.path.buildFontDir))
 });
 
 // Перенос картинок
 gulp.task("build-images", function () {
-    return gulp.src(RS_CONF.path.imgDir +"**/*")
+    return gulp.src(RS_CONF.path.imgDir)
             .pipe(imagemin({
                 progressive: true,
                 interlaced: true
@@ -134,17 +134,19 @@ gulp.task("build-extras", function () {
 
 // Вывод размера папки APP
 gulp.task("size-app", function () {
-    return gulp.src(RS_CONF.path.allSrcFilesPatt).pipe(size({title: "APP size: "}));
+    return gulp.src(RS_CONF.path.allSrcFilesPatt)
+                .pipe(size({title: "APP size: "}));
 });
 
 // Сборка и вывод размера папки DIST
 gulp.task("dist", ["useref", "build-images", "build-fonts", "build-extras", "size-app"], function () {
-    return gulp.src(RS_CONF.path.allBuildFilesPatt).pipe(size({title: "DIST size: "}));
+    return gulp.src(RS_CONF.path.allBuildFilesPatt)
+                .pipe(size({title: "DIST size: "}));
 });
 
 // Собираем папку DIST - только когда файлы готовы
 gulp.task("build", ["build-clean", "wiredep-bower"], function () {
-    gulp.start("dist");
+    return gulp.start("dist");
 });
 
 // Отправка проекта на сервер

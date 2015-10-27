@@ -8,7 +8,7 @@
         srcDir: srcDir,
         cssDir: srcDir +"/css/*.css",
         jsDir: srcDir +"/js/*.js",
-        imgDir: srcDir +"/img/",
+        imgDir: srcDir +"/img/**/*",
         fontDir: srcDir +"/fonts/",
         htmlDir: srcDir +"/*.html",
         bowerDir: srcDir +"/bower",

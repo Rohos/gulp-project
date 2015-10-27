@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Gulp-Project</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Gulp-Project</title>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="./bower/normalize-css/normalize.css">
-    <link rel="stylesheet" href="./css/style.css">
+        <!-- build:css css/vendor.min.css -->
+            <!-- bower:css -->
+            <link rel="stylesheet" href="bower/normalize-css/normalize.css" />
+            <!-- endbower -->
+        <!-- endbuild -->
 
-    <script src="./bower/modernizr/modernizr.js"></script>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="content">
-            <header class="page-header">
-                
-            </header>
+        <!-- build:css css/style.min.css -->
+            <link rel="stylesheet" href="css/style.css">
+        <!-- endbuild -->
 
-            <div class="main-content">
-                <h1>Gulp-Project</h1>
+        <script src="./bower/modernizr/modernizr.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="content">
+                <header class="page-header">
+                    <a href="https://ru.wikipedia.org/wiki/Hurt_(%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0)" target="_blank">
+                        <img src="./img/hurt.jpg">
+                    </a>
+                </header>
+
+                <div class="main-content">
+                    <h1>Gulp-Project</h1>
+                </div>
             </div>
         </div>
-    </div>
 
-    <footer class="footer-page">
-        
-    </footer>
+        <footer class="footer-page">
+            
+        </footer>
 
-    <script src="./bower/jquery/dist/jquery.min.js"></script>
-    <script src="./js/general.js"></script>
-</body>
+        <!-- build:js js/vendor.min.js -->
+            <!-- bower:js -->
+            <script src="bower/jquery/dist/jquery.js"></script>
+            <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js js/general.min.js -->
+            <script src="./js/general.js"></script>
+        <!-- endbuild -->
+
+    </body>
 </html>

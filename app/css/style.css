@@ -1,9 +1,9 @@
 .wrapper{
     position: relative;
+    overflow: hidden;
     min-height: 100%;
     min-width: 970px;
-    height: auto!important;
-    overflow: hidden;
+    height: auto !important;
 }
 .wrapper:after {
     content: "";
