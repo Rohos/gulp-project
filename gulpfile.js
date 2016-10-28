@@ -2,7 +2,7 @@ var gulp = require("gulp"),
     browserSync = require("browser-sync").create(),
     del = require("del"),
     gutil = require("gulp-util"),
-    minifyCss = require("gulp-minify-css"),
+    cleanCss = require("gulp-clean-css"),
     concatCss = require("gulp-concat-css"),
     rename = require("gulp-rename"),
     gulpif = require("gulp-if"),
@@ -49,56 +49,13 @@ gulp.task("w-html", function () {
                 .on("change", browserSync.reload);
 });
 
-// Подключаем Bower файлы
-gulp.task("wiredep-bower", function () {
-    return gulp.src(RS_CONF.path.htmlDir)
-        .pipe(wiredep({
-            directory: RS_CONF.path.bowerDir
-            /*, overrides: {
-                "qtip2": {
-                    "main": ["./jquery.qtip.min.js", "./jquery.qtip.min.css"],
-                    "dependencies": {"jquery": ">=1.6.0"}
-                }
-            }*/
-            , exclude: ["modernizr/"]
-            //, ignorePath: /^(\.\.\/)*\.\./
-        }))
-        .pipe(gulp.dest("./app"));
-});
-
-gulp.task("bower-json", function () {
-    return gulp.watch("bower.json", ["wiredep-bower"]);
-});
 // Default task
-gulp.task("default", function (cb) {
-    runSequence(
-        "server",
-        "bower-json",
-        "wiredep-bower",
-        ["w-css", "w-js", "w-html"],
-        cb
-    );
-});
+gulp.task('watch', ["w-css", "w-js", "w-html"]);
+gulp.task('default', ['watch', 'server']);
 
 /************************************
 ***************** DIST ***************
 *************************************/
-// Переносим CSS JS HTML в папку DIST
-gulp.task("useref", function () {
-    var assets = useref.assets();
-    return gulp.src(RS_CONF.path.htmlDir)
-        .pipe(assets)
-        .pipe(gulpif("*.js", uglify()))
-        .pipe(gulpif("*.css", minifyCss({compatibility: "ie8"})))
-        .pipe(assets.restore())
-        .pipe(useref())
-        .pipe(gulp.dest(RS_CONF.path.buildDir));
-});
-
-// Очищаем директорию DIST
-gulp.task("build-clean", function () {
-    return del(RS_CONF.path.buildDelDir);
-});
 
 // Запускаем локальный сервер для DIST
 gulp.task("build-server", function () {
@@ -109,13 +66,34 @@ gulp.task("build-server", function () {
     });
 });
 
+// Очищаем директорию DIST
+gulp.task("build-clean", function () {
+    return del(RS_CONF.path.buildDelDir);
+});
+
+// Перенос основных файлов с кодом
+gulp.task("useref", function () {
+    var assets = useref.assets();
+    return gulp.src(RS_CONF.path.htmlDir)
+        .pipe(assets)
+        .pipe(gulpif("*.js", uglify()))
+        .pipe(gulpif("*.css", cleanCss()))
+        .pipe(assets.restore())
+        .pipe(useref())
+        .pipe(gulp.dest(RS_CONF.path.buildDir));
+});
+
 // Перенос шрифтов
 gulp.task("build-fonts", function() {
     return gulp.src(RS_CONF.path.fontDir +"*")
         .pipe(filter(RS_CONF.path.fontsPatt))
         .pipe(gulp.dest(RS_CONF.path.buildFontDir))
 });
-
+// Перенос остальных файлов (favicon и т.д.)
+gulp.task("build-extras", function () {
+    return gulp.src(RS_CONF.path.extrasPatt)
+            .pipe(gulp.dest(RS_CONF.path.buildDir));
+});
 // Перенос картинок
 gulp.task("build-images", function () {
     return gulp.src(RS_CONF.path.imgDir)
@@ -126,29 +104,10 @@ gulp.task("build-images", function () {
             .pipe(gulp.dest(RS_CONF.path.buildImgDir));
 });
 
-// Перенос остальных файлов (favicon и т.д.)
-gulp.task("build-extras", function () {
-    return gulp.src(RS_CONF.path.extrasPatt)
-            .pipe(gulp.dest(RS_CONF.path.buildDir));
-});
-
-// Вывод размера папки APP
-gulp.task("size-app", function () {
-    return gulp.src(RS_CONF.path.allSrcFilesPatt)
-                .pipe(size({title: "APP size: "}));
-});
-
-// Сборка и вывод размера папки DIST
-gulp.task("dist", ["useref", "build-images", "build-fonts", "build-extras", "size-app"], function () {
-    return gulp.src(RS_CONF.path.allBuildFilesPatt)
-                .pipe(size({title: "DIST size: "}));
-});
-
-// Собираем папку DIST - только когда файлы готовы
-gulp.task("build", ["build-clean", "wiredep-bower"], function () {
+gulp.task('dist', ["build-images", "build-fonts", "build-extras", "useref"]);
+gulp.task('build', ["build-clean"], function () {
     return gulp.start("dist");
 });
-
 // Отправка проекта на сервер
 gulp.task("deploy", function() {
     var conn = ftp.create({
